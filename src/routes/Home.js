@@ -1,16 +1,52 @@
-import React, { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  onSnapshot,
+  orderBy,
+} from "firebase/firestore";
 import { dbService } from "fBase";
+import Tweet from "components/Tweet";
 
-const Home = () => {
+const Home = ({ userObj }) => {
   const [tweet, setTweet] = useState("");
+  const [tweets, setTweets] = useState([]);
+
+  // const getTweets = async () => {
+  //   const q = query(collection(dbService, "tweets"));
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //     const tweetObj = {
+  //       ...doc.data(),
+  //       id: doc.id,
+  //     };
+  //     setTweets((prev) => [tweetObj, ...prev]);
+  //   });
+  // };
+
+  useEffect(() => {
+    const q = query(
+      collection(dbService, "tweets"),
+      orderBy("createdAt", "desc")
+    );
+    onSnapshot(q, (snapshot) => {
+      const tweetArr = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTweets(tweetArr);
+    });
+  }, []);
 
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
       const docRef = await addDoc(collection(dbService, "tweets"), {
-        tweet,
+        text: tweet,
         createdAt: Date.now(),
+        creatorId: userObj.uid,
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (error) {
@@ -39,6 +75,15 @@ const Home = () => {
         />
         <input type="submit" value="Tweet" />
       </form>
+      <div>
+        {tweets.map((tweet) => (
+          <Tweet
+            key={tweet.id}
+            tweetObj={tweet}
+            isOwner={tweet.creatorId === userObj.uid}
+          />
+        ))}
+      </div>
     </div>
   );
 };
