@@ -28,6 +28,8 @@ const Auth = () => {
     event.preventDefault();
     try {
       let data;
+
+      // New account ? Create user : Sign in
       if (newAccount) {
         data = await createUserWithEmailAndPassword(
           authService,
@@ -47,6 +49,7 @@ const Auth = () => {
     setNewAccount((prev) => !prev);
   };
 
+  // OAuth Google & Github
   const onSocialClick = async (event) => {
     let provider;
     const {
