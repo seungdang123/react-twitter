@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { dbService, storageService } from "fBase";
 import Tweet from "components/Tweet";
-import { ref, uploadString } from "@firebase/storage";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 
 const Home = ({ userObj }) => {
@@ -47,20 +47,29 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
-    const response = await uploadString(fileRef, attachment, "data_url");
-    console.log(response);
-    // try {
-    //   const docRef = await addDoc(collection(dbService, "tweets"), {
-    //     text: tweet,
-    //     createdAt: Date.now(),
-    //     creatorId: userObj.uid,
-    //   });
-    //   console.log("Document written with ID: ", docRef.id);
-    // } catch (error) {
-    //   console.error("Error adding document:", error);
-    // }
-    // setTweet("");
+
+    let attachmentUrl = "";
+
+    if (attachment != "") {
+      const fileRef = ref(storageService, `${userObj.uid}/${uuidv4()}`);
+      const response = await uploadString(fileRef, attachment, "data_url");
+      attachmentUrl = await getDownloadURL(response.ref);
+    }
+
+    try {
+      const docRef = await addDoc(collection(dbService, "tweets"), {
+        text: tweet,
+        createdAt: Date.now(),
+        creatorId: userObj.uid,
+        attachmentUrl,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document:", error);
+    }
+    setTweet("");
+    setAttachment("");
+    fileInput.current.value = "";
   };
 
   const onChange = (event) => {
@@ -87,7 +96,7 @@ const Home = ({ userObj }) => {
   };
 
   const onClearAttachment = () => {
-    setAttachment(null);
+    setAttachment("");
     fileInput.current.value = "";
   };
 
