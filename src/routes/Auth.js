@@ -6,11 +6,12 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 
+// OAuth
 const Auth = () => {
-  const onSocialClick = async (e) => {
+  const onSocialClick = async (event) => {
     const {
       target: { name },
-    } = e;
+    } = event;
     let provider;
     if (name === "google") {
       provider = new GoogleAuthProvider();
