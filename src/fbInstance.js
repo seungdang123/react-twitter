@@ -1,12 +1,13 @@
 // Import the functions you need from the SDKs you need
 
-// initializeApp : Initialization firebase app.
+// initializeApp: Initialization firebase app.
 import { initializeApp } from "firebase/app";
 
 // getAuth: Return Auth instance linked to firebase app
 // We can get uid, email or photoURL etc by using "getAuth"
 import { getAuth } from "firebase/auth";
 
+// getFirestore: Return the firestore instance associated with the provided firebase app
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -26,4 +27,6 @@ const app = initializeApp(firebaseConfig);
 export const authService = getAuth(app);
 export const dbService = getFirestore(app);
 console.log(dbService);
+
+// Get a Firestorage instance
 export const storageService = getStorage(app);
