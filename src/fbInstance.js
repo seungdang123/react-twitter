@@ -1,10 +1,15 @@
 // Import the functions you need from the SDKs you need
+
+// initializeApp: Initialization firebase app.
 import { initializeApp } from "firebase/app";
+
+// getAuth: Return Auth instance linked to firebase app
+// We can get uid, email or photoURL etc by using "getAuth"
 import { getAuth } from "firebase/auth";
+
+// getFirestore: Return the firestore instance associated with the provided firebase app
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,9 +21,12 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
 };
 
-// Initialize Firebase
+// Firebase　Initialization
 const app = initializeApp(firebaseConfig);
 
 export const authService = getAuth(app);
 export const dbService = getFirestore(app);
+console.log(dbService);
+
+// Get a Firestorage instance
 export const storageService = getStorage(app);
