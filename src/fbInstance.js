@@ -28,5 +28,5 @@ export const authService = getAuth(app);
 export const dbService = getFirestore(app);
 console.log(dbService);
 
-// Get a Firestorage instance
+// getStorage : Get a Firestorage instance
 export const storageService = getStorage(app);
