@@ -91,7 +91,8 @@ const NweetFactory = ({ userObj }) => {
             alt="post"
             src={attachment}
             style={{
-              backgroundImage: attachment,
+              height: "50px",
+              width: "50px",
             }}
           />
           <div className="factoryForm__clear" onClick={onClearAttachmentClick}>

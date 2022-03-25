@@ -12,12 +12,18 @@ const Auth = () => {
     const {
       target: { name },
     } = event;
+
+    // GoogleAuthProvider() : OAuth for Google
+    // GithubAuthProvider() : OAuth for Github
+
     let provider;
     if (name === "google") {
       provider = new GoogleAuthProvider();
     } else if (name === "github") {
       provider = new GithubAuthProvider();
     }
+
+    // signInWithPopup() : Generate Pop up screen for Auth
     const data = await signInWithPopup(authService, provider);
     console.log(data);
   };
