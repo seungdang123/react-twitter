@@ -8,20 +8,32 @@ const NweetFactory = ({ userObj }) => {
   const [nweet, setNweet] = useState("");
   const [attachment, setAttachment] = useState("");
   const fileInput = useRef();
+
   const onSubmit = async (e) => {
     if (nweet === "") return;
     e.preventDefault();
     let attachmentUrl = "";
     if (attachment !== "") {
+      // ref : Returns a StorageReference for the given url.
+
       const attachmentRef = ref(storageService, `${userObj.uid}/${v4()}`);
+
+      // uploadString : Uploads a string to this object's location. The upload is not resumable.
+
       const response = await uploadString(
         attachmentRef,
         attachment,
         "data_url"
       );
+
+      // getDownloadURL : Returns the download URL for the given StorageReference.
+
       attachmentUrl = await getDownloadURL(response.ref);
     }
     try {
+      // addDoc : Add a new document to specified CollectionReference with the given data, assigning it a document ID automatically.
+      // collection : Gets a CollectionReference instance that refers to the collection at the specified absolute path.
+
       const docRef = await addDoc(collection(dbService, "nweets"), {
         text: nweet,
         createdAt: Date.now(),
