@@ -7,18 +7,29 @@ import { useState } from "react";
 const Nweet = ({ nweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
   const [newNweet, setNweNweet] = useState(nweetObj.text);
+
+  // doc : Return document reference instance
+  // this situation, doc returns nweetObj on firebase
+  // nweet has speacial path
   const nweetTextRef = doc(dbService, "nweets", `${nweetObj.id}`);
+  console.log(nweetTextRef);
   const onDeleteClick = async () => {
     const ok = window.confirm("Are you sure you want to delete this nweet?");
     console.log(ok);
     if (ok) {
+      // deleteDoc : Delete the document & photo
       await deleteDoc(nweetTextRef);
+
+      // ref : Return Storage reference
+      // deleteObject : Deletes the object at this location.
       await deleteObject(ref(storageService, nweetObj.attachmentUrl));
     }
   };
   const toggleEditing = () => setEditing((prev) => !prev);
   const onSubmit = async (e) => {
     e.preventDefault();
+
+    // updateDoc : update text of the document
     await updateDoc(nweetTextRef, {
       text: newNweet,
     });
