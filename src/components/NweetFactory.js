@@ -3,6 +3,8 @@ import { addDoc, collection } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import React, { useRef, useState } from "react";
 import { v4 } from "uuid";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NweetFactory = ({ userObj }) => {
   const [nweet, setNweet] = useState("");
@@ -86,6 +88,7 @@ const NweetFactory = ({ userObj }) => {
       </div>
       <label htmlFor="attach-file" className="factoryInput__label">
         <span>Add photos</span>
+        <FontAwesomeIcon icon={faPlus} />
       </label>
       <input
         id="attach-file"
@@ -109,6 +112,7 @@ const NweetFactory = ({ userObj }) => {
           />
           <div className="factoryForm__clear" onClick={onClearAttachmentClick}>
             <span>Remove</span>
+            <FontAwesomeIcon icon={faTimes} />
           </div>
         </div>
       )}
