@@ -3,6 +3,8 @@ import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
 import React from "react";
 import { useState } from "react";
+import { faPencilAlt, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Nweet = ({ nweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false);
@@ -73,8 +75,13 @@ const Nweet = ({ nweetObj, isOwner }) => {
           )}
           {isOwner && (
             <div className="nweet__actions">
-              <span onClick={onDeleteClick}>Delete</span>
-              <span onClick={toggleEditing}>Edit</span>
+              <span onClick={onDeleteClick}>
+                {" "}
+                <FontAwesomeIcon icon={faTrash} />
+              </span>
+              <span onClick={toggleEditing}>
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </span>
             </div>
           )}
         </>
