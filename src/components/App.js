@@ -7,14 +7,14 @@ function App() {
   const [init, setInit] = useState(false);
   const [userObj, setUserObj] = useState(null);
   useEffect(() => {
-    // onAuthStateChanged : Adds an observer for changes to the user's sign-in state.
+    // onAuthStateChanged : Adds an observer for changes to the user's sign-in state..
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setUserObj({
           displayName: user.displayName,
           uid: user.uid,
 
-          //  updateProfile: Updates a user's profile data.
+          //  updateProfile: Updates a user's profile data..
           updateProfile: (args) =>
             updateProfile(user, { displayName: user.displayName }),
         });
